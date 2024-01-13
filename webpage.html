@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>FREE CRYPTO 247</title>
+
+    <link rel="stylesheet" type="text/css" href="webpage.css">
+
+    <script 
+        type="text/javascript" 
+        src="https://unpkg.com/bsv@1.5.3/bsv.min.js">
+    </script>
+    
+     <script    
+        type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js">
+    </script>
+
+    <script
+      src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js">
+    </script>
+
+    <script 
+      src="https://code.jquery.com/jquery-3.6.4.min.js">
+    </script>
+
+  </head>
+
+  <body>
+
+    <div id="WebName">
+      <h1>FREE CRYPTO 247</h1>
+    </div>
+
+    <div id="Key Address">
+      <p id="publicKeyDes">Your public key is: <span id="publicKey"></span></p> 
+      <p id="addressDes">Your address is:<span id="address"></span></p>  
+      <button id="generateButton">Generate free Bitcoin here!</button>
+    </div>
+
+    <div id="qrcode"></div>   
+
+    <div id="cryptoInfo">
+      <p>Live Bitcoin Price:</p>
+        <p id="price">Loading...</p>
+    </div>
+
+    <script> 
+
+        var z = new QRCode(document.getElementById("qrcode")); 
+
+        function getButton() {
+            var privateKey = bsv.PrivateKey.fromRandom();
+            var publicKey = privateKey.publicKey;
+            var address = bsv.Address.fromPublicKey(publicKey);
+    
+            var x = document.querySelector("#publicKey");
+            x.innerHTML = publicKey.toString();
+
+            var y = document.querySelector("#address");
+            y.innerHTML = address.toString();
+
+            z.clear();
+            z.makeCode(address.toString());
+        } 
+
+        $.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd", function(data) {
+            var price = data.bitcoin.usd;
+            var y = document.querySelector("#price");
+            y.innerHTML = "$" + price + " USD";
+        });
+
+        document.getElementById("generateButton").addEventListener("click", getButton);
+    </script>
+  </body>
+</html>
